@@ -1,0 +1,84 @@
+/* Overall section styling */
+section.text-center {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Background image container */
+.bg-image {
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+/* Card styling */
+.card.bg-body-tertiary {
+  background-color: rgba(255, 255, 255, 0.75) !important;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Card content padding */
+.card-body {
+  padding: 3rem 2rem;
+}
+
+/* Form inputs */
+.form-control {
+  border-radius: 8px;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Button */
+.btn-primary {
+  background-color: #0d6efd;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 25px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+}
+
+/* Social buttons */
+.btn-floating {
+  font-size: 18px;
+  color: #0d6efd;
+  transition: color 0.3s ease;
+}
+
+.btn-floating:hover {
+  color: #084298;
+}
+
+/* Checkbox alignment */
+.form-check-label {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .card-body {
+    padding: 2rem 1rem;
+  }
+
+  .card.mx-4 {
+    margin-left: 1rem !important;
+    margin-right: 1rem !important;
+  }
+}
+
+
+.btn-disable{
+  
+}
