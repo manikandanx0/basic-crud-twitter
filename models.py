@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Date
 from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase
-
+from datetime import date
 class Base(DeclarativeBase):
     pass
 
@@ -10,5 +11,7 @@ class User(db.Model):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(unique=True, nullable=False)
     email: Mapped[str] = mapped_column(unique=True, nullable=False)
+    dob: Mapped[date] = mapped_column(Date, nullable=False)
     password: Mapped[str] = mapped_column(nullable=False)

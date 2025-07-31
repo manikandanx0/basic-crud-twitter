@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, User
-
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -25,16 +25,24 @@ def handleGet():
 def userList():
     users = db.session.execute(db.select(User).order_by(User.email)).scalars().all()
     for user in users:
-        print(user.email, user.password)
+        print(user.email, user.password, user.name, user.dob)
 
     return render_template("userlist.html")
 
-
-
 @app.post("/signup")
 def postReqHandler():
+    name = request.form.get("fname")
     email = request.form.get("email")
     password = request.form.get("psw")
+    #How would I send this to the db?
+    dob_str = request.form.get("dob")
+  
+
+    try:
+        dob = datetime.strptime(dob_str, "%Y-%m-%d").date()
+    except ValueError:
+        return "Invalid date format. Please use YYYY-MM-DD.", 400
+
     stmt = db.select(User).where(User.email == email)
     existing_user = db.session.execute(stmt).scalars().first()
  # type: ignore
@@ -43,7 +51,7 @@ def postReqHandler():
     # print(f"Username: {username}, Password: {password}")
 
     hashed_password = generate_password_hash(password)  # 🔐 HASHING HERE
-    new_user = User(email=email, password=password) #type: ignore
+    new_user = User(email=email, password=hashed_password, name=name, dob=dob) #type: ignore
     db.session.add(new_user)
     db.session.commit()
     return "success"
