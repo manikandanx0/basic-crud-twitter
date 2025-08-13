@@ -1,5 +1,101 @@
-{% extends "base.html" %} {% block title %}All recorded users{% endblock %} {%
-block content %}
-<p>Welcome to the users!</p>
+{% extends "base.html" %} {% block title %}All Users{% endblock %} {% block
+content %}
+<div class="container">
+    <h2>All Registered Users</h2>
 
+    {% if users %}
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px">
+        <thead>
+            <tr style="background-color: #f8f9fa">
+                <th
+                    style="
+                        border: 1px solid #dee2e6;
+                        padding: 12px;
+                        text-align: left;
+                    "
+                >
+                    ID
+                </th>
+                <th
+                    style="
+                        border: 1px solid #dee2e6;
+                        padding: 12px;
+                        text-align: left;
+                    "
+                >
+                    Name
+                </th>
+                <th
+                    style="
+                        border: 1px solid #dee2e6;
+                        padding: 12px;
+                        text-align: left;
+                    "
+                >
+                    Email
+                </th>
+                <th
+                    style="
+                        border: 1px solid #dee2e6;
+                        padding: 12px;
+                        text-align: left;
+                    "
+                >
+                    Date of Birth
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td style="border: 1px solid #dee2e6; padding: 12px">
+                    {{ user.id }}
+                </td>
+                <td style="border: 1px solid #dee2e6; padding: 12px">
+                    {{ user.name }}
+                </td>
+                <td style="border: 1px solid #dee2e6; padding: 12px">
+                    {{ user.email }}
+                </td>
+                <td style="border: 1px solid #dee2e6; padding: 12px">
+                    {{ user.dob.strftime('%Y-%m-%d') }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No users registered yet.</p>
+    {% endif %}
+
+    <div style="margin-top: 20px">
+        <a href="{{ url_for('index') }}" class="btn btn-primary"
+            >Back to Home</a
+        >
+    </div>
+</div>
+
+<style>
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        text-decoration: none;
+        display: inline-block;
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+
+    table {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+</style>
 {% endblock %}

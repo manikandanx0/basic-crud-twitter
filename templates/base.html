@@ -20,8 +20,16 @@
             <h1>My Website Header</h1>
             <nav>
                 <a href="{{ url_for('index') }}">Home</a>
-                <a href="{{ url_for('handleGet') }}">Sign Up</a>
+                {% if current_user.is_authenticated %}
                 <a href="{{ url_for('userList') }}">Users</a>
+                <a href="{{ url_for('profile') }}">Profile</a>
+                <a href="{{ url_for('logout') }}"
+                    >Logout ({{ current_user.name }})</a
+                >
+                {% else %}
+                <a href="{{ url_for('handleGet') }}">Sign Up</a>
+                <a href="{{ url_for('login') }}">Login</a>
+                {% endif %}
             </nav>
         </header>
 
