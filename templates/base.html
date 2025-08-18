@@ -4,16 +4,18 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="color-scheme" content="light dark" />
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
-        />
+        <meta name="color-scheme" content="light" />
+
         <title>{% block title %}My Site{% endblock %}</title>
         <link
             rel="stylesheet"
             href="{{ url_for('static', filename='style.css') }}"
         />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='ress.css') }}"
+        />
+        <!-- <link rel="stylesheet" href="https://unpkg.com/98.css" /> -->
     </head>
     <body>
         <header>
@@ -24,7 +26,7 @@
                 <a href="{{ url_for('userList') }}">Users</a>
                 <a href="{{ url_for('profile') }}">Profile</a>
                 <a href="{{ url_for('logout') }}"
-                    >Logout ({{ current_user.name }})</a
+                    >Logout ({{ current_user.username }})</a
                 >
                 {% else %}
                 <a href="{{ url_for('handleGet') }}">Sign Up</a>

@@ -4,6 +4,134 @@ content %}
     defer
     src="{{ url_for('static', filename='passwordCheck.js') }}"
 ></script>
+
+<script defer src="{{ url_for('static', filename='username.js') }}"></script>
+
+<style>
+    .form-container {
+        max-width: 400px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background-color: #2a2a2a;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 255, 112, 0.2);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    label {
+        display: block;
+        color: #01ff70;
+        font-family: "Courier New", monospace;
+        margin-bottom: 0.5rem;
+    }
+
+    input {
+        width: 100%;
+        padding: 0.5rem;
+        font-family: "Courier New", monospace;
+        background-color: #333;
+        border: 1px solid #01ff70;
+        color: #fafafa;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: #2ecc40;
+        box-shadow: 0 0 5px rgba(46, 204, 64, 0.5);
+    }
+
+    .terms {
+        color: #01ff70;
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+    .terms a {
+        color: #2ecc40;
+        text-decoration: underline;
+    }
+
+    .terms a:hover {
+        color: #01ff70;
+    }
+
+    .terms {
+        color: #01ff70;
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+    .terms a {
+        color: #2ecc40;
+        text-decoration: underline;
+    }
+
+    .terms a:hover {
+        color: #01ff70;
+    }
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .alert {
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+
+    .alert-success {
+        color: #155724;
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+    }
+
+    .alert-danger {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+
+    .alert-info {
+        color: #0c5460;
+        background-color: #d1ecf1;
+        border-color: #bee5eb;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 8px 12px;
+        margin: 4px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+</style>
 <h2>Create Account</h2>
 <form action="/signup" method="post">
     <div class="container">
@@ -18,7 +146,8 @@ content %}
             name="fname"
             required
         />
-
+        <label for="uname"><b>Username</b></label>
+        <input type="text" placeholder="Username" name="uname" required />
         <label for="email"><b>Email</b></label>
         <input type="text" placeholder="Enter Email" name="email" required />
 
@@ -53,7 +182,9 @@ content %}
         </p>
 
         <div class="clearfix">
-            <button type="submit" class="signupbtn">Sign Up</button>
+            <button type="submit" class="btn btn-primary signupbtn">
+                Sign Up
+            </button>
         </div>
     </div>
 </form>

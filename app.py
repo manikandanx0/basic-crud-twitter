@@ -32,18 +32,10 @@ def index():
 def handleGet():
     return render_template("create_account.html")
 
-@app.route("/users")
-@login_required  # Protect this route
-def userList():
-    users = db.session.execute(db.select(User).order_by(User.email)).scalars().all()
-    for user in users:
-        print(user.email, user.password, user.name, user.dob)
-
-    return render_template("userlist.html", users=users)
-
 @app.post("/signup")
 def postReqHandler():
     name = request.form.get("fname")
+    username = request.form.get("uname")
     email = request.form.get("email")
     password = request.form.get("psw")
     dob_str = request.form.get("dob")
@@ -55,34 +47,55 @@ def postReqHandler():
         return redirect(url_for('handleGet'))
 
     stmt = db.select(User).where(User.email == email)
+    stme = db.select(User).where(User.username == username)
     existing_user = db.session.execute(stmt).scalars().first()
-    
+    existing_usernames = db.session.execute(stme).scalars().first()
+
     if existing_user:
-        flash("Email already registered. Try a different one.", "error")
+        # flash("Email already registered. Try a different one.", "error")
+        return redirect(url_for('handleGet'))
+
+    if existing_usernames:
+        # flash("Username already registered. Try a different one.", "error")
         return redirect(url_for('handleGet'))
 
     hashed_password = generate_password_hash(password)
-    new_user = User(email=email, password=hashed_password, name=name, dob=dob)
+    new_user = User(email=email, username=username, password=hashed_password, name=name, dob=dob)
     db.session.add(new_user)
     db.session.commit()
     
-    flash("Account created successfully! Please log in.", "success")
+    # flash("Account created successfully! Please log in.", "success")
     return redirect(url_for('login'))
+
+@app.route("/users")
+@login_required  # Protect this route
+def userList():
+    users = db.session.execute(db.select(User).order_by(User.email)).scalars().all()
+    for user in users:
+        print(user.email, user.username, user.password, user.name, user.dob)
+
+    return render_template("userlist.html", users=users)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        email = request.form.get("email")
+        login_input = request.form.get("email")  # This field now accepts email OR username
         password = request.form.get("password")
         
-        if not email or not password:
+        if not login_input or not password:
             flash("Please fill in all fields.", "error")
-            return render_template("login.html")
+            return render_template("loginpage.html")
+        user = None
         
-        # Find user by email
-        stmt = db.select(User).where(User.email == email)
-        user = db.session.execute(stmt).scalars().first()
+        # Try email first
+        email_stmt = db.select(User).where(User.email == login_input)
+        user = db.session.execute(email_stmt).scalars().first()
         
+        # If not found by email, try username
+        if not user:
+            username_stmt = db.select(User).where(User.username == login_input)
+            user = db.session.execute(username_stmt).scalars().first()
+
         if user and check_password_hash(user.password, password):
             login_user(user)
             flash(f"Welcome back, {user.name}!", "success")
@@ -91,15 +104,17 @@ def login():
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('index'))
         else:
-            flash("Invalid email or password.", "error")
+            flash("Invalid email/username or password.", "error")
     
     return render_template("loginpage.html")
+
+
 
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
-    flash("You have been logged out successfully.", "info")
+    # flash("You have been logged out successfully.", "info")
     return redirect(url_for('index'))
 
 @app.route("/profile")
